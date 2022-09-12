@@ -1,0 +1,71 @@
+import sys, os 
+import Main
+from PyQt5 import QtCore
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout,QPushButton
+from PyQt5.QtCore import Qt 
+from PyQt5.QtGui import QPixmap 
+
+class ImageLabel(QLabel): 
+    def __init__(self): 
+        super().__init__() 
+
+        self.setAlignment(Qt.AlignCenter) 
+        self.setText('\n\n Drop Image Here \n\n') 
+        self.setStyleSheet(''' QLabel{ border: 4px dashed #aaa } ''') 
+
+    def setPixmap(self, image): 
+        super().setPixmap(image) 
+    
+class AppDemo(QWidget): 
+    def __init__(self): 
+        super().__init__()
+
+        self.resize(400, 400) 
+        self.setAcceptDrops(True) 
+        mainLayout = QVBoxLayout() 
+        self.photoViewer = ImageLabel() 
+        mainLayout.addWidget(self.photoViewer) 
+        self.Botao = QPushButton()
+        self.Botao.setGeometry(QtCore.QRect(680, 520, 93, 28))
+        self.Botao.setObjectName("EfetuaProcessamento")
+        _translate = QtCore.QCoreApplication.translate
+        self.Botao.setText(_translate("", "Efetua Processamento"))
+        self.Botao.clicked.connect(self.Clicou)
+        mainLayout.addWidget(self.Botao) 
+        self.setLayout(mainLayout) 
+
+    def Clicou(self):
+        if file_path:
+            Main.ProgramaPrincipal(file_path)
+        else:
+            print("Coloque uma imagem companheiro")
+    def dragEnterEvent(self, event): 
+        if event.mimeData().hasImage: 
+            event.accept() 
+        else: 
+            event.ignore() 
+
+    def dragMoveEvent(self, event): 
+        if event.mimeData().hasImage: 
+            event.accept()
+        else: 
+            event.ignore() 
+
+    def dropEvent(self, event): 
+        if event.mimeData().hasImage: 
+            event.setDropAction(Qt.CopyAction) 
+            global file_path  
+            file_path = event.mimeData().urls()[0].toLocalFile() 
+            print(file_path)
+            self.set_image(file_path) 
+            event.accept() 
+        else: 
+            event.ignore() 
+
+    def set_image(self, file_path): 
+        self.photoViewer.setPixmap(QPixmap(file_path)) 
+             
+app = QApplication(sys.argv) 
+demo = AppDemo() 
+demo.show() 
+sys.exit(app.exec())
