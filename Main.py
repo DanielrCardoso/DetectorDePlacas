@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import imutils
 import easyocr
+import sys
 
 def colorir_regioes(labels):
     label_hue = np.uint8(179*labels/np.max(labels))
@@ -190,3 +191,43 @@ def Placa(path):
     print(text)
     res = applyTextInImg(image,text,aprox="inside")
     show_N_imgs("Texto Aplicado",[res])
+
+def main():
+    try:
+        arg_command = sys.argv[1].upper()
+        image_path = sys.argv[2]
+
+        print("----------------------------------------------\n",sys.argv[2])
+    except IndexError:
+        arg_command = ""
+        image_path = ""
+    Done = False
+    while not Done:
+        if(arg_command==""):
+            print('\nSelecione um metodo de detccao:')
+            print('C - Carro')
+            print('P - Placa')
+            print('S - Sair')
+            print('----------------')
+            command = input('Insira uma opcao> ').strip()[0].upper()
+            if(command):
+                image_path = input('Insira o caminho da imagem>')
+        else:
+            command = arg_command
+            #- set arg value to empty to run Menu option again.
+            arg_command = ""
+            image_path = ""
+
+        if(command == 'C'):
+            print("Modo de detccao de placa em uma imagem.")
+            Carro(image_path)
+        elif(command == 'P'):
+            print("Iniciando detccao de caracteres em uma placa.")
+            Placa(image_path)
+        elif(command == "S"):
+            break
+        else:
+            print("Faca uma escolha valida!.")
+
+if __name__ == "__main__":
+    main()
