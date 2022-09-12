@@ -87,9 +87,6 @@ def showMsgImg(text,label,image):
     cv2.imshow(label,img)
     cv2.waitKey(500)
 
-def getOpcao():
-    print("menu")
-
 def maintain_aspect_ratio_resize(image, width=None, height=None, inter=cv2.INTER_AREA):
     dim = None
     (h, w) = image.shape[:2]
@@ -149,7 +146,7 @@ def operacoesPlacaCinza(image):
 
 ##############################################
 
-def ProgramaPrincipal(path):
+def Carro(path):
     #processo de leitura
     image = cv2.imread(path)
     show_N_imgs("placa",[image])
@@ -160,19 +157,31 @@ def ProgramaPrincipal(path):
     passosOperacoes,placa,aprox = get_placa(imageGray)
     show_N_imgs("placa",passosOperacoes)
     show_N_imgs("somente placa",[placa])
-
     #preparar placa para tamanho padrao
     placa = maintain_aspect_ratio_resize(placa, width=300)
-
     #caso placa cinza
     placaPreparada = operacoesPlacaCinza(placa)
-
     #caso placa mercosul
     #placaPreparada = operacoesPlacaCinza(placa)
-
     #processo de extrair texto e aplicar na imagem
     showMsgImg("OCR is running...","placa",image)
     text = img2text(placaPreparada)
     print(text)
     res = applyTextInImg(image,text,aprox)
+    show_N_imgs("placa",[res])
+
+def Placa(path):
+    image = cv2.imread(path)
+    show_N_imgs("placa",[image])
+    imageGray = cv2.cvtColor(image,cv2.COLOR_RGB2GRAY)
+    show_N_imgs("placa",[imageGray])
+    imageGray= maintain_aspect_ratio_resize(imageGray, width=300)
+    placaPreparada = operacoesPlacaCinza(imageGray)
+    #caso placa mercosul
+    #placaPreparada = operacoesPlacaCinza(placa)
+    #processo de extrair texto e aplicar na imagem
+    showMsgImg("OCR is running...","placa",image)
+    text = img2text(placaPreparada)
+    print(text)
+    res = applyTextInImg(image)
     show_N_imgs("placa",[res])

@@ -25,18 +25,30 @@ class AppDemo(QWidget):
         mainLayout = QVBoxLayout() 
         self.photoViewer = ImageLabel() 
         mainLayout.addWidget(self.photoViewer) 
-        self.Botao = QPushButton()
-        self.Botao.setGeometry(QtCore.QRect(680, 520, 93, 28))
-        self.Botao.setObjectName("EfetuaProcessamento")
+        self.Botao1 = QPushButton()
+        self.Botao1.setGeometry(QtCore.QRect(680, 520, 93, 28))
+        self.Botao1.setObjectName("EfetuaProcessamento")
         _translate = QtCore.QCoreApplication.translate
-        self.Botao.setText(_translate("", "Efetua Processamento"))
-        self.Botao.clicked.connect(self.Clicou)
-        mainLayout.addWidget(self.Botao) 
+        self.Botao1.setText(_translate("", "Processamento Carro"))
+        self.Botao1.clicked.connect(self.Clicou1)
+        mainLayout.addWidget(self.Botao1)
+        self.Botao2 = QPushButton()
+        self.Botao2.setGeometry(QtCore.QRect(680, 520, 93, 28))
+        self.Botao2.setObjectName("EfetuaProcessamento")
+        _translate = QtCore.QCoreApplication.translate
+        self.Botao2.setText(_translate("", "Processamento Placa"))
+        self.Botao2.clicked.connect(self.Clicou2)
+        mainLayout.addWidget(self.Botao2) 
         self.setLayout(mainLayout) 
 
-    def Clicou(self):
+    def Clicou1(self):
         if file_path:
-            Main.ProgramaPrincipal(file_path)
+            Main.Carro(file_path)
+        else:
+            print("Coloque uma imagem companheiro")
+    def Clicou2(self):
+        if file_path:
+            Main.Placa(file_path)
         else:
             print("Coloque uma imagem companheiro")
     def dragEnterEvent(self, event): 
