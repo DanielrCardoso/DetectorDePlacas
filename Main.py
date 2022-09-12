@@ -45,10 +45,14 @@ def img2text(image):
     return text
 
 def applyTextInImg(image,text,aprox):
+    if(aprox != "inside"):
+        font = cv2.FONT_HERSHEY_PLAIN
+        res = cv2.putText(image,text=text,org=(aprox[0][0][0], aprox[1][0][1]+60),fontFace=font,fontScale=1,color=(255,0,0),thickness=1,lineType=cv2.LINE_AA)
+        (x,y,alt,lar) = cv2.boundingRect(aprox)
+        cv2.rectangle(image,(x,y),(x+alt,y+lar),(0,0,255),2)
+        return res
     font = cv2.FONT_HERSHEY_PLAIN
-    res = cv2.putText(image,text=text,org=(aprox[0][0][0], aprox[1][0][1]+60),fontFace=font,fontScale=1,color=(255,0,0),thickness=1,lineType=cv2.LINE_AA)
-    (x,y,alt,lar) = cv2.boundingRect(aprox)
-    cv2.rectangle(image,(x,y),(x+alt,y+lar),(0,0,255),2)
+    res = cv2.putText(image,text=text,org=(20,20),fontFace=font,fontScale=2,color=(255,0,0),thickness=1,lineType=cv2.LINE_AA)
     return res
 
 def get_placa(image):
@@ -172,6 +176,7 @@ def Carro(path):
 
 def Placa(path):
     image = cv2.imread(path)
+    image= maintain_aspect_ratio_resize(image, width=300)
     show_N_imgs("placa",[image])
     imageGray = cv2.cvtColor(image,cv2.COLOR_RGB2GRAY)
     show_N_imgs("placa",[imageGray])
@@ -180,8 +185,8 @@ def Placa(path):
     #caso placa mercosul
     #placaPreparada = operacoesPlacaCinza(placa)
     #processo de extrair texto e aplicar na imagem
-    showMsgImg("OCR is running...","placa",image)
+    showMsgImg("OCR is running...","Texto Aplicado",image)
     text = img2text(placaPreparada)
     print(text)
-    res = applyTextInImg(image)
-    show_N_imgs("placa",[res])
+    res = applyTextInImg(image,text,aprox="inside")
+    show_N_imgs("Texto Aplicado",[res])
