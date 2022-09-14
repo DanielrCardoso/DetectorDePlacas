@@ -17,7 +17,10 @@ pip install PyQt5
 ``` 
 ``` 
 pip install cv2
-```  
+```
+```
+pip install opencv-python
+```
 ```  
 pip install numpy
 ```  
