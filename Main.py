@@ -84,6 +84,7 @@ def get_placa(image):
 def show_N_imgs(label,vetImages):
     for img in vetImages:
         cv2.imshow(label,img)
+        # cv2.imwrite(label+".png",img)
         cv2.waitKey(0)
     
 def showMsgImg(text,label,image):
@@ -122,11 +123,11 @@ def operacoesPlacaCinza(image):
     show_N_imgs("2 - Aplicando fechamento",[closing])
     
     #adicao
-    image = cv2.add(image,closing)
-    show_N_imgs("3 - soma",[image])
+    # image = cv2.add(image,closing)
+    # show_N_imgs("3 - soma",[image])
     
     #binarizacao
-    _, mask = cv2.threshold(image,0,255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
+    _, mask = cv2.threshold(closing,0,255,cv2.THRESH_BINARY_INV+cv2.THRESH_OTSU)
     show_N_imgs('4 - Binarização',[mask])
     
     #erosao
