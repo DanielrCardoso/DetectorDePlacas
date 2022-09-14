@@ -30,6 +30,7 @@ pip install imutils
 ```   
 pip install easyocr
 ```  
+Obs: Caso já possua as bibliotecas OpenCv e Numpy instaladas previamente pode ser necessário realizar o processo de desinstalação e instalação novamente. Para mais informações consulte: https://github.com/opencv/opencv-python/issues/18#issuecomment-752701731
 
 # Execução do programa
 No terminal, clone o projeto:  
